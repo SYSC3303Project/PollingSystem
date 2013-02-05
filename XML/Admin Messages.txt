@@ -1,0 +1,25 @@
+<xs:schema>
+
+<xs:element name="connect" type="xs:string"/>
+	<xs:attribute name="numOfOptions" type="xs:string"/>
+	<xs:attribute name="emailAddress" type="xs:string"/>
+
+<xs:element name="Connected" type="xs:string"/>
+	<xs:attribute name="pollId" type="xs:string"/>
+
+<xs:element name="start" type="xs:string"/>
+	<xs:attribute name="pollId" type="xs:string"/>
+
+<xs:element name="Stop" type="xs:string"/>
+	<xs:attribute name="pollId" type="xs:string"/>
+
+<xs:element name="Pause" type="xs:string"/>
+	<xs:attribute name="pollId" type="xs:string"/>
+
+<xs:element name="Resume" type="xs:string"/>
+	<xs:attribute name="pollId" type="xs:string"/>
+
+<xs:element name="ClearResults" type="xs:string"/>
+	<xs:attribute name="pollId" type="xs:string"/>
+
+</xs:schema>
