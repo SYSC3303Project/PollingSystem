@@ -1,0 +1,15 @@
+<AdminMessage>
+
+	<Connect>
+		<numOfOptions>4</numOfOptions>
+		<emailAddress>aryan.r.t@gmail.com</emailAddress>
+	</Connect>
+
+	<Connected>1</Connected>
+	<Start>1</Start>
+	<Stop>1</Start>
+	<Pause>1</Pause>
+	<Resume>1</Resume>
+	<ClearResults>1</ClearResults>
+
+</AdminMessage>
