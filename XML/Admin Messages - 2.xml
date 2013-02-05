@@ -5,11 +5,28 @@
 		<emailAddress>aryan.r.t@gmail.com</emailAddress>
 	</Connect>
 
-	<Connected>1</Connected>
-	<Start>1</Start>
-	<Stop>1</Start>
-	<Pause>1</Pause>
-	<Resume>1</Resume>
-	<ClearResults>1</ClearResults>
+	<Connected>
+		<pollId>1</pollId>
+	</Connected>
+	
+	<Start>
+		<pollId>1</pollId>
+	</Start>
+
+	<Stop>
+		<pollId>1</pollId>
+	</Start>
+
+	<Pause>
+		<pollId>1</pollId>
+	</Pause>
+
+	<Resume>
+		<pollId>1</pollId>	
+	</Resume>
+
+	<ClearResults>
+		<pollId>1</pollId>
+	</ClearResults>
 
 </AdminMessage>
