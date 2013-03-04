@@ -125,7 +125,7 @@ public class Server {
 		DatagramPacket receivePacket = new DatagramPacket(data, data.length);
 
 		// Block until a datagram packet is received from receiveSocket.
-		try {         
+		try {
 			receiveSocket.receive(receivePacket);
 		} catch (IOException e) {  e.printStackTrace(); System.exit(1); }
 
