@@ -1,9 +1,0 @@
-<xs:schema>
-
-<xs:element name="Vote"/>
-	<xs:element name="pollIdentifier" type="xs:string"/>
-	<xs:element name="choiceIdentifier" type="xs:string"/>
-	<xs:element name="voterIdentifier" type="xs:string"/>
-</xs:element>
-
-</xs:schema>

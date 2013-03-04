@@ -1,9 +1,0 @@
-<AdminMessage>
-	<Connect numOfOptions="4" emailAddress="aryan.r.t@gmail.com"/>
-	<Connected pollId="1"/>
-	<Start pollId="1"/>
-	<Stop pollId="1"/>
-	<Pause pollId="1"/>
-	<Resume pollId="1"/>
-	<ClearResults pollId="1"/>
-</AdminMessage>

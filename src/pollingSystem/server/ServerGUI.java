@@ -1,6 +1,7 @@
-package pollingSystem.server;
+package src.pollingSystem.server;
 
 import javax.swing.*;
+
 import java.util.*;
 
 public class ServerGUI extends JFrame {
@@ -28,6 +29,4 @@ public class ServerGUI extends JFrame {
 		ServerGUI client = new ServerGUI();
    		client.setVisible(true);
 	}
-	
-	
 }

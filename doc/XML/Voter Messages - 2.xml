@@ -1,7 +1,0 @@
-<AdminMessage>
-	<Vote/>
-		<pollIdentifie>1</pollIdentifie>
-		<choiceIdentifier>2</choiceIdentifier>
-		<voterIdentifier>3</voterIdentifier>
-	<Vote/>
-</AdminMessage>
