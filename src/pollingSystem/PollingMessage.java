@@ -6,8 +6,13 @@
  */
 package src.pollingSystem;
 
-public class PollingMessage {
+import java.io.Serializable;
 
+public class PollingMessage implements Serializable {
+
+	/**Generated Serial ID*/
+	private static final long serialVersionUID = 6020846097896774666L;
+	
 	private String text;
 	
 	public PollingMessage(String messageText) {
@@ -17,6 +22,11 @@ public class PollingMessage {
 	public boolean isCreatePollMessage() {
 		return true; //temporary fake logic
 	}
+	
+	public boolean isPausePollMessage() {
+		return true;
+	}
+	
 
 	@Override
 	public String toString() {

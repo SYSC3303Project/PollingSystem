@@ -1,8 +1,9 @@
 package src.pollingSystem.server;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Poll {
+public class Poll implements Serializable{
 	private String question;
 	private List<String> options;
 	private boolean paused;

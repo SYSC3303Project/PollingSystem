@@ -7,10 +7,10 @@ import javax.swing.*;
 
 public class AdminPanel extends JPanel implements ActionListener{
 	
-	private ServerGUI frame;
+	private AdminFrame frame;
 	
 	private JButton create;
-	private JButton show;
+	//private JButton show;
 	private JButton pause;
 	private JButton end;
 	
@@ -20,16 +20,16 @@ public class AdminPanel extends JPanel implements ActionListener{
 	
 	private CreateFrame cFrame;
 	
-	private Model model;
+	private AdminClient client;
 	
-	public AdminPanel(Model model)
+	public AdminPanel(AdminClient client)
 	{
-		super(new GridLayout(3,2));
+		super(new GridLayout(2,3));
 		
-		this.model=model;
+		this.client=client;
 		
 		create=new JButton("create poll");
-		show=new JButton("show poll");
+		//show=new JButton("show poll");
 		pause=new JButton("pause poll");
 		end=new JButton("end poll");
 		
@@ -38,7 +38,7 @@ public class AdminPanel extends JPanel implements ActionListener{
 		selectText=new JTextField("");
 		
 		add(create);
-		add(show);
+		//add(show);
 		add(pause);
 		add(end);
 		
@@ -46,7 +46,7 @@ public class AdminPanel extends JPanel implements ActionListener{
 		add(selectText);
 		
 		create.addActionListener(this);
-		show.addActionListener(this);
+		//show.addActionListener(this);
 		pause.addActionListener(this);
 		end.addActionListener(this);
 	}
@@ -59,27 +59,21 @@ public class AdminPanel extends JPanel implements ActionListener{
 	    
 		if (source == create)
 	    {
-	    	cFrame=new CreateFrame(model);
+	    	cFrame=new CreateFrame(client);
 	    	cFrame.setVisible(true);
 	    }
+		else
+		{
+			pollNumber=Integer.parseInt(selectText.getText());
 		
-			
-		
-		    if (source == show)
-		    {
-		    	pollNumber=Integer.parseInt(selectText.getText());
-		    	model.getPoll(pollNumber).show();
-		    }
 		    if (source == pause)
 		    {
-		    	pollNumber=Integer.parseInt(selectText.getText());
-		    	model.getPoll(pollNumber).pause();
+		    	//send a pause message to the server
 		    }
 		    if (source == end)
 		    {
+		    	//send an end message to the server
 		    }
-		    else{
-		    	//do nothing if the event is not one of the listed buttons
-		    }
+		}
 	}
 }
