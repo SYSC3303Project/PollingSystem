@@ -1,10 +1,10 @@
-package pollingSystem.testCase;
+package src.pollingSystem.testCase;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import pollingSystem.server.Server;
+import src.pollingSystem.server.Server;
 
 public class TestServer {
 

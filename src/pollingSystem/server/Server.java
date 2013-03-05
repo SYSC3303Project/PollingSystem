@@ -5,7 +5,7 @@
  * @version 02/5/2013
  */
 
-package pollingSystem.server;
+package src.pollingSystem.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,7 +17,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import pollingSystem.PollingMessage;
+import src.pollingSystem.PollingMessage;
+
+
 
 public class Server {
 	/**The port which admin messages will be recieved on*/
