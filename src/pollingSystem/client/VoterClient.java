@@ -18,6 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 public class VoterClient extends JFrame implements ActionListener{
 	
+	/**Default port for UDP connection*/
+	public static final int DEFAULT_PORT = 1500;
+	
+	/**The port number to listen for connection.*/
+	private int port;
+	
 	/**Generated Serial ID*/
 	private static final long serialVersionUID = -5817022285820394734L;
 	private JTextField pollTextField;
@@ -88,6 +94,9 @@ public class VoterClient extends JFrame implements ActionListener{
 		long voteID = Long.parseLong(voteTextField.getText());
 		
 		System.out.println(pollID+" "+voteID);
+		
+		
+		
 		
 		//UDP connection
 		//Send <pollID> <voteID> to server
