@@ -20,10 +20,14 @@ public class Poll implements Serializable{
 		paused=!(paused);
 	}
 	
-	//displays a graph of the votes
-	public void show()
+	public String getQuestion()
 	{
-		
+		return question;
+	}
+	
+	public List<String> getOptions()
+	{
+		return options;
 	}
 	
 	//prints the question and options on the console
