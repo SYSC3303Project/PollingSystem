@@ -1,13 +1,13 @@
-package pollingSystem.client;
+package src.pollingSystem.client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import pollingSystem.server.Poll;
 
-import pollingSystem.PollingMessage;
+import src.pollingSystem.PollingMessage;
+import src.pollingSystem.server.Poll;
 
 public class AdminClient {
 	

@@ -1,4 +1,4 @@
-package pollingSystem.testCase;
+package src.pollingSystem.testCase;
 
 import org.junit.Test;
 
