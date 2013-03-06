@@ -9,9 +9,11 @@
 package pollingSystem.server;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -182,6 +184,19 @@ public class Server extends Observable implements Observer {
 				}
 			}
 		} else if(o.getClass().equals(AdminListener.class)) {
+			//at this point arg is a serialzed object
+			System.out.println("Admin Listener sent an object: "+arg.getClass().toString());
+
+			try {
+				ObjectInputStream objectStream = new ObjectInputStream(new ByteArrayInputStream(((String)arg).getBytes()));
+				System.out.println("set up object stream");
+				PollingMessage message = (PollingMessage) objectStream.readObject();
+				
+				System.out.println(message.toString());
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+			/**
 			String[] stringArray = ((String)arg).split("$");
 			String pollID = stringArray[0];
 			String secondWord = stringArray[1];
@@ -199,7 +214,7 @@ public class Server extends Observable implements Observer {
 						poll.pause();
 					
 				}
-			}
+			}*/
 		}
 	}
 	

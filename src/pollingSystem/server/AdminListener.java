@@ -26,9 +26,9 @@ public class AdminListener extends Observable implements Runnable {
 	   }
 	   
 	   //recieves a message from the admin client
-	   public String receive()
+	   public Object receive()
 	   {
-		   String msg="";
+		   Object msg = null;
 		   try {
 		       clientSocket = serverSocket.accept();
 		       in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -53,6 +53,7 @@ public class AdminListener extends Observable implements Runnable {
 		serverRunning = true;
 		while(serverRunning)
 		{
+			this.setChanged();
 			this.notifyObservers(receive());
 		}
 		try {
