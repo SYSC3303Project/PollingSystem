@@ -5,7 +5,7 @@
  * @author Matthew Smith - 100 827 363
  * @version 01/17/2013
  */
-package pollingSystem.client;
+package src.pollingSystem.client;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
