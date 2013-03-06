@@ -6,7 +6,7 @@
  * @version 03/05/2013
  */
 
-package src.pollingSystem.server;
+package pollingSystem.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import src.pollingSystem.PollingMessage;
+import pollingSystem.PollingMessage;
 
 public class Server extends Observable implements Observer {
 
@@ -29,10 +29,10 @@ public class Server extends Observable implements Observer {
 	private ArrayList<Poll> polls;
 
 	/**The port which admin messages will be recieved on*/
-	public static final int ADMIN_RECEIVE_PORT = 5000;
+	public static final int ADMIN_RECEIVE_PORT = 23545;
 
 	/**The port which admin messages will be recieved on*/
-	public static final int VOTER_RECEIVE_PORT = 5001;
+	public static final int VOTER_RECEIVE_PORT = 23461;
 
 	private int numberOfOngoingPolls;
 
@@ -166,6 +166,7 @@ public class Server extends Observable implements Observer {
 	 * Update 
 	 */
 	public void update(Observable o, Object arg) {
+		System.out.println("Recieved a message");
 		String[] stringArray = ((String)arg).split("$");
 		String pollID = stringArray[0];
 		String secondWord = stringArray[1];

@@ -1,4 +1,4 @@
-package src.pollingSystem.server;
+package pollingSystem.server;
 
 import java.util.*;
 

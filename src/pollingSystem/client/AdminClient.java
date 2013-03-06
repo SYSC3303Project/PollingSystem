@@ -1,4 +1,4 @@
-package src.pollingSystem.client;
+package pollingSystem.client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -6,13 +6,13 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
-import src.pollingSystem.PollingMessage;
-import src.pollingSystem.server.Poll;
+import pollingSystem.PollingMessage;
+import pollingSystem.server.Poll;
 
 public class AdminClient {
 	
 	public static String SERVER="127.0.0.1";
-	public static final int PORT=5000;
+	public static final int PORT=5050;
 	
 	
 	private Socket pollSocket;

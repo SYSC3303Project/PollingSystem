@@ -1,4 +1,4 @@
-package src.pollingSystem.server;
+package pollingSystem.server;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -19,6 +19,7 @@ public class VoteListener extends Observable implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("Vote Listener Started");
 		
 		byte data[] = new byte[DEFAULT_DATA_SIZE];
 		
@@ -32,9 +33,11 @@ public class VoteListener extends Observable implements Runnable {
 		try {
 			receiveSocket = new DatagramSocket(DEFAULT_PORT);
 			
-			while(serverRunning) { //Loop until something tells the listener to stop				
+			while(serverRunning) { //Loop until something tells the listener to stop	
+				System.out.println("Waiting for receive");
 				// Block until a datagram packet is received from receiveSocket.
 				receiveSocket.receive(receivePacket);
+				System.out.println("Message Recieved");
 	
 				notifyObservers(new String(receivePacket.getData(),0,receivePacket.getLength()));
 			}

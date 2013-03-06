@@ -1,4 +1,4 @@
-package src.pollingSystem.server;
+package pollingSystem.server;
 
 import java.util.Observable;
 import java.io.*;
@@ -6,7 +6,7 @@ import java.net.*;
 
 public class AdminListener extends Observable implements Runnable {
 	
-	public static final int PORT=5000;
+	public static final int PORT=5050;
 	
 	private ServerSocket serverSocket;
 	private Socket clientSocket;
@@ -39,7 +39,7 @@ public class AdminListener extends Observable implements Runnable {
 			   clientSocket.close();
 			   serverSocket.close();
 	      
-		   } catch (SocketException e2) { System.out.println("Done"); System.exit(0); }
+		   } catch (SocketException e2) { e2.printStackTrace(System.err); System.exit(0); }
 		   catch (IOException e) { e.printStackTrace(System.err); System.exit(1);  }
 		   
 		   return msg;
@@ -48,6 +48,7 @@ public class AdminListener extends Observable implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("Admin Listener Started");
 		while(true)
 		{
 			this.notifyObservers(receive());

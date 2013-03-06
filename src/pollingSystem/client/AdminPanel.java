@@ -1,4 +1,4 @@
-package src.pollingSystem.client;
+package pollingSystem.client;
 
 import java.awt.GridLayout;
 import java.awt.event.*;

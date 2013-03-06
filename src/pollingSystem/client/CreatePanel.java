@@ -1,4 +1,4 @@
-package src.pollingSystem.client;
+package pollingSystem.client;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import src.pollingSystem.server.Poll;
+import pollingSystem.server.Poll;
 
 public class CreatePanel extends JPanel implements ActionListener{
 	
