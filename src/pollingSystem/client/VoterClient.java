@@ -145,15 +145,17 @@ public class VoterClient extends JFrame implements ActionListener, Runnable{
 		try {
 			long pollID = Long.parseLong(pollTextField.getText()); //used to make sure the string is a valid number
 			long voteID = Long.parseLong(voteTextField.getText()); //used to make sure the string is a valid number
-			int port = Integer.parseInt(pollTextField.getText());
+			int port = Integer.parseInt(portTextField.getText());
 			
 			String messageToSend = pollID+" "+voteID;
 			
 			DatagramPacket sendPacket = new DatagramPacket(messageToSend.getBytes(), 
 										messageToSend.length(),InetAddress.getByName(serverTextField.getText()),port);
-			DatagramSocket sendSocket = new DatagramSocket(port);
+			DatagramSocket sendSocket = new DatagramSocket();
 			
 			sendSocket.send(sendPacket);
+			System.out.println("Data: "+sendPacket.getData()+"\nSocketAddress: "+sendPacket.getSocketAddress());
+			
 			sendSocket.close();
 			
 			JOptionPane.showMessageDialog(this, "Vote Sent successfully","Success", JOptionPane.INFORMATION_MESSAGE);

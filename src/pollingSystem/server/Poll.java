@@ -42,8 +42,8 @@ public class Poll {
 	 * adds 1 to the result count of the option number passed as a parameter
 	 * @param option - number option being voted for
 	 */
-	public void vote(int option){
-		resultCount.set(option, resultCount.get(option) + 1);
+	public void vote(long option){
+		resultCount.set((int) option, resultCount.get((int) option) + 1);
 	}
 	/**
 	 * decrements 1 to the result count of the option number passed as a parameter

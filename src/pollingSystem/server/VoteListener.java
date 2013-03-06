@@ -33,12 +33,10 @@ public class VoteListener extends Observable implements Runnable {
 		try {
 			receiveSocket = new DatagramSocket(DEFAULT_PORT);
 			
-			while(serverRunning) { //Loop until something tells the listener to stop	
-				System.out.println("Waiting for receive");
+			while(serverRunning) { //Loop until something tells the listener to stop
 				// Block until a datagram packet is received from receiveSocket.
 				receiveSocket.receive(receivePacket);
-				System.out.println("Message Recieved");
-	
+				this.setChanged();
 				notifyObservers(new String(receivePacket.getData(),0,receivePacket.getLength()));
 			}
 			receiveSocket.close();

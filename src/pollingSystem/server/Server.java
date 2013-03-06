@@ -41,6 +41,7 @@ public class Server extends Observable implements Observer {
 	 */
 	public Server() {
 		numberOfOngoingPolls = 0;
+		polls = new ArrayList<Poll>();
 	}
 	
 	public static void main(String[] args) {
@@ -166,24 +167,37 @@ public class Server extends Observable implements Observer {
 	 * Update 
 	 */
 	public void update(Observable o, Object arg) {
-		System.out.println("Recieved a message");
-		String[] stringArray = ((String)arg).split("$");
-		String pollID = stringArray[0];
-		String secondWord = stringArray[1];
-		if(stringArray[1].equals("Create")){
-			ArrayList<String> questions = new ArrayList<String>();
-			for(int i = 2;  i < stringArray.length ; i++){
-				questions.add(stringArray[i]);
+		System.out.println("Recieved a message: "+arg.toString());
+		
+		if(o.getClass().equals(VoteListener.class)) {
+			System.out.println("Vote Listener Sent me");
+			String[] stringArray = ((String)arg).split(" ");
+			long pollID = Long.parseLong(stringArray[0]);
+			long voteID = Long.parseLong(stringArray[1]);
+			for(Poll poll : polls) {
+				if(poll.getPollID().equals(pollID)) {
+					poll.vote(voteID);
+					this.setChanged();
+					this.notifyObservers(this);
+				}
 			}
-			polls.add(new Poll(stringArray[1], questions));
-			this.notifyObservers(this);
-		}
-		else for(Poll poll : polls){
-			if(poll.getPollID().equals(pollID)){
-				if(secondWord.equals("Pause"))
-					poll.pause();
-				else{
-					poll.vote(Integer.parseInt(secondWord));
+		} else if(o.getClass().equals(AdminListener.class)) {
+			String[] stringArray = ((String)arg).split("$");
+			String pollID = stringArray[0];
+			String secondWord = stringArray[1];
+			if(stringArray[1].equals("Create")){
+				ArrayList<String> questions = new ArrayList<String>();
+				for(int i = 2;  i < stringArray.length ; i++){
+					questions.add(stringArray[i]);
+				}
+				polls.add(new Poll(stringArray[1], questions));
+				this.notifyObservers(this);
+			}
+			else for(Poll poll : polls){
+				if(poll.getPollID().equals(pollID)){
+					if(secondWord.equals("Pause"))
+						poll.pause();
+					
 				}
 			}
 		}
