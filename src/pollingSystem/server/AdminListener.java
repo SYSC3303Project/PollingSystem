@@ -11,13 +11,14 @@ public class AdminListener extends Observable implements Runnable {
 	private ServerSocket serverSocket;
 	private Socket clientSocket;
 	private BufferedReader in;
+	private boolean serverRunning;
 
 	   public AdminListener()
 	   {
 		   serverSocket = null;
 	       try {
 	           serverSocket = new ServerSocket(PORT);
-	 
+	           
 	       } catch (IOException e) {
 	           e.printStackTrace(System.err);
 	           System.exit(1);
@@ -33,11 +34,11 @@ public class AdminListener extends Observable implements Runnable {
 		       in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 		       //while (!clientSocket.isOutputShutdown())  // isClosed(), isConnected(),isInputShutdown do not work
+		       System.out.println("Waiting for Connection");
 			   msg = in.readLine(); 
-			   
+			   System.out.println("unblocked, message is: "+msg);
 			   in.close();  
 			   clientSocket.close();
-			   serverSocket.close();
 	      
 		   } catch (SocketException e2) { e2.printStackTrace(System.err); System.exit(0); }
 		   catch (IOException e) { e.printStackTrace(System.err); System.exit(1);  }
@@ -49,10 +50,16 @@ public class AdminListener extends Observable implements Runnable {
 	@Override
 	public void run() {
 		System.out.println("Admin Listener Started");
-		while(true)
+		serverRunning = true;
+		while(serverRunning)
 		{
 			this.notifyObservers(receive());
 		}
-		
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

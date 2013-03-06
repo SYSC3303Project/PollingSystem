@@ -11,7 +11,7 @@ import pollingSystem.server.Poll;
 
 public class AdminClient {
 	
-	public static String SERVER="127.0.0.1";
+	public static String SERVER="localhost";
 	public static final int PORT=5050;
 	
 	
@@ -49,7 +49,7 @@ public class AdminClient {
 		} catch (IOException e) { 
 			   System.err.println("Couldn't get I/O for the connection");
 	           System.exit(1);
-		}	   
+		}
 	}
 	
 	//sends a pause message to pause a poll
