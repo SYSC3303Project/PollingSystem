@@ -1,8 +1,9 @@
 package src.pollingSystem.server;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Poll {
+public class Poll implements Serializable{
 	private String question;
 	private List<String> options;
 	private boolean paused;
@@ -19,10 +20,14 @@ public class Poll {
 		paused=!(paused);
 	}
 	
-	//displays a graph of the votes
-	public void show()
+	public String getQuestion()
 	{
-		
+		return question;
+	}
+	
+	public List<String> getOptions()
+	{
+		return options;
 	}
 	
 	//prints the question and options on the console

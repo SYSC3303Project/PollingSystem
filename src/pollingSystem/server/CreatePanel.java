@@ -3,6 +3,9 @@ package src.pollingSystem.server;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +27,13 @@ public class CreatePanel extends JPanel implements ActionListener{
 	
 	private List<String> options;
 	
-	private Model model;
+	private AdminClient client;
 	
-	
-	public CreatePanel (Model model)
+	public CreatePanel (AdminClient client)
 	{
 		super(new GridLayout(3,2));
 		
-		this.model=model;
+		this.client=client;
 		
 		questionLabel=new JLabel("Question");
 		optionLabel=new JLabel("Option");
@@ -62,6 +64,7 @@ public class CreatePanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		String question;
 		Poll poll;
+		AdminClient admin;
 		
 		Object source = event.getSource();
 	    if (source == enter)
@@ -72,8 +75,9 @@ public class CreatePanel extends JPanel implements ActionListener{
 	    	if(question!="" && !(options.isEmpty()))
 	    	{
 	    		poll=new Poll(question,options);
-	    		poll.displayQuestion();
-	    		model.addPoll(poll);
+	    		//send poll object to the server
+	    		client.sendPoll(poll);
+	    		
 	    		
 	    	}
 	    }
@@ -84,5 +88,5 @@ public class CreatePanel extends JPanel implements ActionListener{
 	    }
 		
 	}
-	
+
 }

@@ -4,29 +4,29 @@ import javax.swing.*;
 
 import java.util.*;
 
-public class ServerGUI extends JFrame {
+public class AdminFrame extends JFrame {
 	
 	private AdminPanel adminPanel;
 	
-	private Model model;
 	
-	public ServerGUI()
+	
+	public AdminFrame(AdminClient client)
 	{
 		super("Admin Client");
-		
-		model=new Model();
 		
 		setSize(300,300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		adminPanel=new AdminPanel(model);
+		adminPanel=new AdminPanel(client);
 		
 		this.add(adminPanel);
 	}
 	
+	/*
 	public static void main(String[] args) 
 	{
-		ServerGUI client = new ServerGUI();
+		AdminFrame client = new AdminFrame();
    		client.setVisible(true);
 	}
+	*/
 }
