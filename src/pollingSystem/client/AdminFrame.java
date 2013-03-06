@@ -1,4 +1,4 @@
-package pollingSystem.client;
+package src.pollingSystem.client;
 
 import javax.swing.*;
 

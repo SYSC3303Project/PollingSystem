@@ -4,7 +4,7 @@
  * @author Matthew Smith - 100 827 363
  * @version 02/5/2013
  */
-package pollingSystem;
+package src.pollingSystem;
 
 import java.io.Serializable;
 

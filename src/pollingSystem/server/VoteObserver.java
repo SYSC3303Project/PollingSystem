@@ -1,9 +1,14 @@
-package pollingSystem.server;
+package src.pollingSystem.server;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class VoteObserver implements Runnable, Observer {
+
+
+	public VoteObserver() {
+		
+	}
 
 	@Override
 	public void run() {
