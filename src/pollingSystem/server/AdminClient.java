@@ -50,10 +50,10 @@ public class AdminClient {
 		}	   
 	}
 	
-	//sends a message to pause a poll
+	//sends a pause message to pause a poll
 	public void sendPause(int pollNumber)
 	{
-		PollingMessage message=new PollingMessage("Pause:"+pollNumber);
+		PollingMessage message=new PollingMessage("Pause$"+pollNumber);
 		try {
 	    	  out.writeObject(message);
 	      } catch (IOException e) { 
@@ -62,16 +62,29 @@ public class AdminClient {
 	      }
 	}
 	
+	//sends a end message to pause a poll
+	public void sendEnd(int pollNumber)
+	{
+		PollingMessage message=new PollingMessage("End$"+pollNumber);
+		try {
+	    	  out.writeObject(message);
+	      } catch (IOException e) { 
+	    	  System.err.println("Couldn't get I/O for the connection");
+	    	  System.exit(1);
+	      }
+	}
+	
+	
 	//sends a create message with the information about a created poll
 	public void sendPoll(Poll poll) {
 		
 		// send the poll information to the server
-		// ":" Separates questions and options
+		// "$" Separates questions and options
 		//poll formated as "Create:question:option1:option2:option3"
-		StringBuffer buff=new StringBuffer("Create:"+poll.getQuestion());
+		StringBuffer buff=new StringBuffer("Create$"+poll.getQuestion());
 		for(String s:poll.getOptions())
 		{
-			buff.append(":"+s);
+			buff.append("$"+s);
 		}
 		
 		PollingMessage message=new PollingMessage(buff.toString());

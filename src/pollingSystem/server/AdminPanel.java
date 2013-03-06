@@ -10,7 +10,6 @@ public class AdminPanel extends JPanel implements ActionListener{
 	private AdminFrame frame;
 	
 	private JButton create;
-	//private JButton show;
 	private JButton pause;
 	private JButton end;
 	
@@ -29,7 +28,6 @@ public class AdminPanel extends JPanel implements ActionListener{
 		this.client=client;
 		
 		create=new JButton("create poll");
-		//show=new JButton("show poll");
 		pause=new JButton("pause poll");
 		end=new JButton("end poll");
 		
@@ -38,7 +36,6 @@ public class AdminPanel extends JPanel implements ActionListener{
 		selectText=new JTextField("");
 		
 		add(create);
-		//add(show);
 		add(pause);
 		add(end);
 		
@@ -46,7 +43,6 @@ public class AdminPanel extends JPanel implements ActionListener{
 		add(selectText);
 		
 		create.addActionListener(this);
-		//show.addActionListener(this);
 		pause.addActionListener(this);
 		end.addActionListener(this);
 	}
@@ -69,10 +65,12 @@ public class AdminPanel extends JPanel implements ActionListener{
 		    if (source == pause)
 		    {
 		    	//send a pause message to the server
+		    	client.sendPause(pollNumber);
 		    }
 		    if (source == end)
 		    {
 		    	//send an end message to the server
+		    	client.sendEnd(pollNumber);
 		    }
 		}
 	}
