@@ -1,33 +1,36 @@
-
 /**
  * Voter Client
- * This Lab will print out a message every two seconds for one minute
+ * This Client will take a server address and the port to connect to 
+ * and send a vote message with the specified pollID and voteID
  * @author Matthew Smith - 100 827 363
- * @version 01/17/2013
+ * @version 03/05/2013
  */
 package pollingSystem.client;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-public class VoterClient extends JFrame implements ActionListener{
+
+public class VoterClient extends JFrame implements ActionListener, Runnable{
 	
 	/**Default port for UDP connection*/
 	public static final int DEFAULT_PORT = 1500;
-	/**Default Server for UDP connetion*/
+	/**Default Server for UDP connection*/
 	public static final String DEFAULT_SERVER = "localhost";
-	/**The port number to listen for connection.*/
-	private int port;
-	/**Server for writing to the socket*/
-	private DatagramSocket udpSocket;
 	
 	/**Will store the server address for the udp connection*/
 	private JTextField serverTextField;
@@ -45,6 +48,9 @@ public class VoterClient extends JFrame implements ActionListener{
 	private JTextField voteTextField;
 	private static final String VOTE_LABEL = "VoteID";
 	
+	/**
+	 * Constructor Creates the Voter Client and initializes the window and its contents
+	 */
 	public VoterClient() {
 		super("Voter Client");
 
@@ -129,22 +135,46 @@ public class VoterClient extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent event) { // Submit button pressed
-		
-		System.out.println(pollTextField.getText()+" "+voteTextField.getText());
-		
-		
-		long pollID = Long.parseLong(pollTextField.getText());
-		long voteID = Long.parseLong(voteTextField.getText());
-		
-		System.out.println(pollID+" "+voteID);
-		
-		
-		
-		
-		//UDP connection
-		//Send <pollID> <voteID> to server
+		Thread sendThread = new Thread(this);
+		//send the message on a separate thread so the client is not halted if there is any error
+		sendThread.start();
 	}
 	
+	@Override
+	public void run() {
+		try {
+			long pollID = Long.parseLong(pollTextField.getText()); //used to make sure the string is a valid number
+			long voteID = Long.parseLong(voteTextField.getText()); //used to make sure the string is a valid number
+			int port = Integer.parseInt(pollTextField.getText());
+			
+			String messageToSend = pollID+" "+voteID;
+			
+			DatagramPacket sendPacket = new DatagramPacket(messageToSend.getBytes(), 
+										messageToSend.length(),InetAddress.getByName(serverTextField.getText()),port);
+			DatagramSocket sendSocket = new DatagramSocket(port);
+			
+			sendSocket.send(sendPacket);
+			sendSocket.close();
+			
+			JOptionPane.showMessageDialog(this, "Vote Sent successfully","Success", JOptionPane.INFORMATION_MESSAGE);
+			
+		} catch(NumberFormatException nfe) { //Show Number Format Exception Error Dialog
+			JOptionPane.showMessageDialog(this, "Incorrect number:\n"+nfe.getMessage(),"Error Parsing Number", JOptionPane.ERROR_MESSAGE);
+		} catch(SocketException se) { //Show Socket Exception Error Dialog
+			JOptionPane.showMessageDialog(this, "Could not Connect Socket:\n"+se.getMessage(),
+					"Error Connecting to Socket", JOptionPane.ERROR_MESSAGE);
+		} catch (UnknownHostException e) { //Show Unknown Host Exception error dialog
+			JOptionPane.showMessageDialog(this, "Could not Connect Host:\n"+e.getMessage(),
+					"Error Connecting to Host", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) { //show IO exception error dialog
+			JOptionPane.showMessageDialog(this, "Could not send message:\n"+e.getMessage(),
+					"IO error sending data", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * entry point for the voter client program.
+	 */
 	public static void main(String[] args) {
 		VoterClient client = new VoterClient();
 		client.setVisible(true);
