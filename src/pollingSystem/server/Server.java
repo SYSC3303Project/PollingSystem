@@ -2,7 +2,8 @@
  * SYSC3303 - Term Project
  * The server will receive connections and log the information into the proper poll
  * @author Matthew Smith - 100 827 363
- * @version 02/5/2013
+ * @author Mohamed Ahmed - 100 828 374
+ * @version 03/05/2013
  */
 
 package pollingSystem.server;
@@ -16,20 +17,25 @@ import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import pollingSystem.PollingMessage;
 
+public class Server extends Observable implements Observer {
 
 
-public class Server {
+	private ArrayList<Poll> polls;
+
 	/**The port which admin messages will be recieved on*/
 	public static final int ADMIN_RECEIVE_PORT = 5000;
 
 	/**The port which admin messages will be recieved on*/
 	public static final int VOTER_RECEIVE_PORT = 5001;
-	
+
 	private int numberOfOngoingPolls;
-	
+
 	/**
 	 * Constructor, does nothing at the moment
 	 */
@@ -37,6 +43,27 @@ public class Server {
 		numberOfOngoingPolls = 0;
 	}
 	
+	public static void main(String[] args) {
+		Server serv = new Server();
+
+		VoteListener voteListener = new VoteListener();
+		voteListener.addObserver(serv);
+		
+		AdminListener adminListener = new AdminListener();
+		adminListener.addObserver(serv);
+		
+		
+		VoteObserver voteObserver = new VoteObserver();
+		
+		serv.addObserver(voteObserver);
+
+		Thread voteListenThread = new Thread(voteListener);
+		voteListenThread.start();
+		
+		Thread adminListenThread = new Thread(adminListener);
+		adminListenThread.start();
+	}
+
 	public int numberOfPolls() {
 		return numberOfOngoingPolls;
 	}
@@ -76,13 +103,13 @@ public class Server {
 			try {
 				Socket connectionSocket = receiveSocket.accept();
 				BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-				
+
 				incomingMessage = new PollingMessage(inFromClient.readLine());
 				System.out.println("Admin Received: " + incomingMessage);
-				
+
 				DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 				outToClient.writeBytes("Recieved Message");
-				
+
 				if(incomingMessage.isCreatePollMessage()) {
 					createPollThread();
 				}
@@ -91,9 +118,9 @@ public class Server {
 				numberOfOngoingPolls--;
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * This helper method creates the poll threads and their UDP 
 	 * connections which listen for new poll votes on the poll.
@@ -106,7 +133,7 @@ public class Server {
 				DatagramSocket receiveSocket;
 				try {
 					receiveSocket = new DatagramSocket(VOTER_RECEIVE_PORT);// bind to port 5001, socket will be used to receive UDP packets.
-					
+
 					pollListen(receiveSocket);
 				} catch (SocketException se) {
 					se.printStackTrace();
@@ -134,5 +161,38 @@ public class Server {
 		// Process the received datagram.
 		System.out.println("Poll Received " + new String(receivePacket.getData(),0,receivePacket.getLength()));
 	}
+
+	/**
+	 * Update 
+	 */
+	public void update(Observable o, Object arg) {
+		String[] stringArray = ((String)arg).split("$");
+		String pollID = stringArray[0];
+		String secondWord = stringArray[1];
+		if(stringArray[1].equals("Create")){
+			ArrayList<String> questions = new ArrayList<String>();
+			for(int i = 2;  i < stringArray.length ; i++){
+				questions.add(stringArray[i]);
+			}
+			polls.add(new Poll(stringArray[1], questions));
+			this.notifyObservers(this);
+		}
+		else for(Poll poll : polls){
+			if(poll.getPollID().equals(pollID)){
+				if(secondWord.equals("Pause"))
+					poll.pause();
+				else{
+					poll.vote(Integer.parseInt(secondWord));
+				}
+			}
+		}
+	}
 	
+	
+	public void printPolls() {
+		for(Poll poll : polls){
+			poll.print();
+		}
+	}
+
 }

@@ -13,7 +13,7 @@ public class Poll {
 		this.question=question;
 		this.options=new ArrayList<String>(options);
 		resultCount = new ArrayList<Integer>();
-		for(String option : options){
+		for(int i=0;i<options.size();i++) {
 			resultCount.add(0);
 		}
 		paused=false;
