@@ -191,15 +191,16 @@ public class Server extends Observable implements Observer {
 				
 			System.out.println(message.toString());
 			
-			String[] stringArray = message.toString().split("$");
+			String[] stringArray = message.toString().split("\\$");
 			String pollID = stringArray[0];
 			String secondWord = stringArray[1];
-			if(stringArray[1].equals("Create")){
+			if(stringArray[0].toLowerCase().equals("create")){
 				ArrayList<String> questions = new ArrayList<String>();
 				for(int i = 2;  i < stringArray.length ; i++){
 					questions.add(stringArray[i]);
 				}
 				polls.add(new Poll(stringArray[1], questions));
+				System.out.println("About to notify VoteObserver");
 				this.setChanged();
 				this.notifyObservers(this);
 			}
