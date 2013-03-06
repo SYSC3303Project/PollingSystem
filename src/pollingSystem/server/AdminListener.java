@@ -10,7 +10,7 @@ public class AdminListener extends Observable implements Runnable {
 	
 	private ServerSocket serverSocket;
 	private Socket clientSocket;
-	private BufferedReader in;
+	private ObjectInputStream in;
 	private boolean serverRunning;
 
 	   public AdminListener()
@@ -31,17 +31,18 @@ public class AdminListener extends Observable implements Runnable {
 		   Object msg = null;
 		   try {
 		       clientSocket = serverSocket.accept();
-		       in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		       in = new ObjectInputStream(clientSocket.getInputStream());
 
 		       //while (!clientSocket.isOutputShutdown())  // isClosed(), isConnected(),isInputShutdown do not work
 		       System.out.println("Waiting for Connection");
-			   msg = in.readLine(); 
+			   msg = in.readObject(); 
 			   System.out.println("unblocked, message is: "+msg);
 			   in.close();  
 			   clientSocket.close();
 	      
 		   } catch (SocketException e2) { e2.printStackTrace(System.err); System.exit(0); }
-		   catch (IOException e) { e.printStackTrace(System.err); System.exit(1);  }
+		   catch (IOException e) { e.printStackTrace(System.err); System.exit(1);  } 
+		   catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		   
 		   return msg;
 	   }   

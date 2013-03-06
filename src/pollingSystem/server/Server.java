@@ -187,17 +187,11 @@ public class Server extends Observable implements Observer {
 			//at this point arg is a serialzed object
 			System.out.println("Admin Listener sent an object: "+arg.getClass().toString());
 
-			try {
-				ObjectInputStream objectStream = new ObjectInputStream(new ByteArrayInputStream(((String)arg).getBytes()));
-				System.out.println("set up object stream");
-				PollingMessage message = (PollingMessage) objectStream.readObject();
+			PollingMessage message = (PollingMessage) arg;
 				
-				System.out.println(message.toString());
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
-			/**
-			String[] stringArray = ((String)arg).split("$");
+			System.out.println(message.toString());
+			
+			String[] stringArray = message.toString().split("$");
 			String pollID = stringArray[0];
 			String secondWord = stringArray[1];
 			if(stringArray[1].equals("Create")){
@@ -206,6 +200,7 @@ public class Server extends Observable implements Observer {
 					questions.add(stringArray[i]);
 				}
 				polls.add(new Poll(stringArray[1], questions));
+				this.setChanged();
 				this.notifyObservers(this);
 			}
 			else for(Poll poll : polls){
@@ -214,7 +209,7 @@ public class Server extends Observable implements Observer {
 						poll.pause();
 					
 				}
-			}*/
+			}
 		}
 	}
 	
