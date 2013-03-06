@@ -5,7 +5,7 @@
  * @version 02/5/2013
  */
 
-package src.pollingSystem.server;
+package pollingSystem.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,7 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import src.pollingSystem.PollingMessage;
+import pollingSystem.PollingMessage;
 
 
 
