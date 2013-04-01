@@ -9,9 +9,11 @@
 package src.pollingSystem.server;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -31,7 +33,7 @@ public class Server extends Observable implements Observer {
 	/**The port which admin messages will be recieved on*/
 	public static final int ADMIN_RECEIVE_PORT = 23545;
 
-	/**The port which admin messages will be recieved on*/
+	/**The port which voter messages will be recieved on*/
 	public static final int VOTER_RECEIVE_PORT = 23461;
 
 	private int numberOfOngoingPolls;
@@ -41,6 +43,7 @@ public class Server extends Observable implements Observer {
 	 */
 	public Server() {
 		numberOfOngoingPolls = 0;
+		polls = new ArrayList<Poll>();
 	}
 	
 	public static void main(String[] args) {
@@ -166,24 +169,49 @@ public class Server extends Observable implements Observer {
 	 * Update 
 	 */
 	public void update(Observable o, Object arg) {
-		System.out.println("Recieved a message");
-		String[] stringArray = ((String)arg).split("$");
-		String pollID = stringArray[0];
-		String secondWord = stringArray[1];
-		if(stringArray[1].equals("Create")){
-			ArrayList<String> questions = new ArrayList<String>();
-			for(int i = 2;  i < stringArray.length ; i++){
-				questions.add(stringArray[i]);
+		System.out.println("Recieved a message: "+arg.toString());
+		
+		if(o.getClass().equals(VoteListener.class)) {
+			System.out.println("Vote Listener Sent me");
+			String[] stringArray = ((String)arg).split(" ");
+			long pollID = Long.parseLong(stringArray[0]);
+			long voteID = Long.parseLong(stringArray[1]);
+			for(Poll poll : polls) {
+				if(poll.getPollID().equals(pollID)) {
+					poll.vote(voteID);
+					this.setChanged();
+					this.notifyObservers(this);
+				}
 			}
-			polls.add(new Poll(stringArray[1], questions));
-			this.notifyObservers(this);
-		}
-		else for(Poll poll : polls){
-			if(poll.getPollID().equals(pollID)){
-				if(secondWord.equals("Pause"))
-					poll.pause();
-				else{
-					poll.vote(Integer.parseInt(secondWord));
+		} else if(o.getClass().equals(AdminListener.class)) {
+			//at this point arg is a serialzed object
+			System.out.println("Admin Listener sent an object: "+arg.getClass().toString());
+
+			PollingMessage message = (PollingMessage) arg;
+				
+			System.out.println(message.toString());
+			
+			String[] stringArray = message.toString().split("\\$");
+			String pollID = stringArray[0];
+			String secondWord = stringArray[1];
+			if(stringArray[0].toLowerCase().equals("create")){
+				ArrayList<String> questions = new ArrayList<String>();
+				for(int i = 2;  i < stringArray.length ; i++){
+					questions.add(stringArray[i]);
+				}
+				Poll justCreatedPoll = new Poll(stringArray[1], questions);
+				justCreatedPoll.setPollID("" + (polls.size() + 1 ) );
+				polls.add(justCreatedPoll);
+				System.out.println("poll with poll id "+ polls.get(polls.size()-1 ).getPollID() + " created.");
+				System.out.println("About to notify VoteObserver");
+				this.setChanged();
+				this.notifyObservers(this);
+			}
+			else for(Poll poll : polls){
+				if(poll.getPollID().equals(pollID)){
+					if(secondWord.equals("Pause"))
+						poll.pause();
+					
 				}
 			}
 		}

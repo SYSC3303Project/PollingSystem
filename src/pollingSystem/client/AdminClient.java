@@ -1,4 +1,4 @@
-package src.pollingSystem.client;
+package pollingSystem.client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -6,13 +6,13 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
-import src.pollingSystem.PollingMessage;
-import src.pollingSystem.server.Poll;
+import pollingSystem.PollingMessage;
+import pollingSystem.server.Poll;
 
 public class AdminClient {
 	
-	public static String SERVER="127.0.0.1";
-	public static final int PORT=1234;
+	public static String SERVER="localhost";
+	public static final int PORT=5050;
 	
 	
 	private Socket pollSocket;
@@ -28,17 +28,15 @@ public class AdminClient {
 		try {
 			pollSocket=new Socket(SERVER,PORT);
 		} catch (UnknownHostException e) {
-			System.out.println("Unkown host");
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("IO exception");
 			e.printStackTrace();
 		}
 		
 		try {
 			out = new ObjectOutputStream(pollSocket.getOutputStream());
 	    } catch (IOException e2) {
-	       System.err.println("Couldn't get I/O connection 1");
+	       System.err.println("Couldn't get I/O connection");
 	       System.exit(1);
 	    }
 	}
@@ -49,9 +47,9 @@ public class AdminClient {
 			   out.close();
 			   pollSocket.close();   
 		} catch (IOException e) { 
-			   System.err.println("Couldn't get I/O for the connection 2");
+			   System.err.println("Couldn't get I/O for the connection");
 	           System.exit(1);
-		}	   
+		}
 	}
 	
 	//sends a pause message to pause a poll
@@ -61,7 +59,7 @@ public class AdminClient {
 		try {
 	    	  out.writeObject(message);
 	      } catch (IOException e) { 
-	    	  System.err.println("Couldn't get I/O for the connection pause");
+	    	  System.err.println("Couldn't get I/O for the connection");
 	    	  System.exit(1);
 	      }
 	}
@@ -73,7 +71,7 @@ public class AdminClient {
 		try {
 	    	  out.writeObject(message);
 	      } catch (IOException e) { 
-	    	  System.err.println("Couldn't get I/O for the connection end");
+	    	  System.err.println("Couldn't get I/O for the connection");
 	    	  System.exit(1);
 	      }
 	}
@@ -97,11 +95,9 @@ public class AdminClient {
 		try {
 	    	  out.writeObject(message);
 	      } catch (IOException e) { 
-	    	  System.err.println("Couldn't get I/O for the connection poll");
+	    	  System.err.println("Couldn't get I/O for the connection");
 	    	  System.exit(1);
 	      }
-		
-		close();
 	}
 	
 	
@@ -109,6 +105,5 @@ public class AdminClient {
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		AdminClient client = new AdminClient();
-		
    	}
 }

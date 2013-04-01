@@ -17,9 +17,12 @@ public class VoteObserver implements Runnable, Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		System.out.println("In Vote Observer Update");
 		if(arg1.getClass().equals(Server.class)) {
+			System.out.println("Server class sent me");
 			Server server = (Server) arg1;
 			server.printPolls();
+			System.out.println("Server class printed polls");
 		}
 	}
 
