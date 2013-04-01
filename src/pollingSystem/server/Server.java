@@ -6,7 +6,7 @@
  * @version 03/05/2013
  */
 
-package pollingSystem.server;
+package src.pollingSystem.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import pollingSystem.PollingMessage;
+import src.pollingSystem.PollingMessage;
 
 public class Server extends Observable implements Observer {
 
