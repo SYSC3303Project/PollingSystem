@@ -33,7 +33,7 @@ public class Server extends Observable implements Observer {
 	/**The port which admin messages will be recieved on*/
 	public static final int ADMIN_RECEIVE_PORT = 23545;
 
-	/**The port which admin messages will be recieved on*/
+	/**The port which voter messages will be recieved on*/
 	public static final int VOTER_RECEIVE_PORT = 23461;
 
 	private int numberOfOngoingPolls;
@@ -199,7 +199,10 @@ public class Server extends Observable implements Observer {
 				for(int i = 2;  i < stringArray.length ; i++){
 					questions.add(stringArray[i]);
 				}
-				polls.add(new Poll(stringArray[1], questions));
+				Poll justCreatedPoll = new Poll(stringArray[1], questions);
+				justCreatedPoll.setPollID("" + (polls.size() + 1 ) );
+				polls.add(justCreatedPoll);
+				System.out.println("poll with poll id "+ polls.get(polls.size()-1 ).getPollID() + " created.");
 				System.out.println("About to notify VoteObserver");
 				this.setChanged();
 				this.notifyObservers(this);
