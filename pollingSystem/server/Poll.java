@@ -6,6 +6,8 @@ public class Poll {
 	private String question;
 	private List<String> options;
 	private boolean paused;
+	
+	
 	private ArrayList<Integer> resultCount;
 	private String pollID;
 	public Poll(String question,List<String> options)
@@ -18,6 +20,11 @@ public class Poll {
 		}
 		paused=false;
 	}
+	public boolean isPaused() {
+		return paused;
+	}
+
+	
 	public void pause()
 	{
 		paused=!(paused);
@@ -43,7 +50,7 @@ public class Poll {
 	 * adds 1 to the result count of the option number passed as a parameter
 	 * @param option - number option being voted for
 	 */
-	public synchronized void vote(long option){
+	public void vote(long option){
 		
 		resultCount.set(((int) option)-1, resultCount.get(((int) option)-1) + 1);
 	}

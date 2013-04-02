@@ -19,7 +19,7 @@ public class VoteListener extends Observable implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Vote Listener Started");
+		//System.out.println("Vote Listener Started");
 		
 		byte data[] = new byte[DEFAULT_DATA_SIZE];
 		

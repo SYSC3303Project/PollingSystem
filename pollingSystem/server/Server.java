@@ -44,24 +44,24 @@ public class Server extends Observable implements Observer {
 		numberOfOngoingPolls = 0;
 		polls = new ArrayList<Poll>();
 	}
-	
+
 	public static void main(String[] args) {
 		Server serv = new Server();
 
 		VoteListener voteListener = new VoteListener();
 		voteListener.addObserver(serv);
-		
+
 		AdminListener adminListener = new AdminListener();
 		adminListener.addObserver(serv);
-		
-		
+
+
 		VoteObserver voteObserver = new VoteObserver();
-		
+
 		serv.addObserver(voteObserver);
 
 		Thread voteListenThread = new Thread(voteListener);
 		voteListenThread.start();
-		
+
 		Thread adminListenThread = new Thread(adminListener);
 		adminListenThread.start();
 	}
@@ -168,29 +168,34 @@ public class Server extends Observable implements Observer {
 	 * Update 
 	 */
 	public void update(Observable o, Object arg) {
-		System.out.println("Recieved a message: "+arg.toString());
-		
+		//System.out.println("Recieved a message: "+arg.toString());
+
 		if(o.getClass().equals(VoteListener.class)) {
-			System.out.println("Vote Listener Sent me");
+			//System.out.println("Vote Listener Sent me");
 			String[] stringArray = ((String)arg).split(" ");
 			long pollID = Long.parseLong(stringArray[0]);
 			long voteID = Long.parseLong(stringArray[1]);
 			for(Poll poll : polls) {
 				if(Long.parseLong(poll.getPollID())==pollID) {
-					System.out.println("set changed");
-					poll.vote(voteID);
-					this.setChanged();
-					this.notifyObservers(this);
+					if(!(poll.isPaused()))
+					{
+						//System.out.println("set changed");
+						poll.vote(voteID);
+						this.setChanged();
+						this.notifyObservers(this);
+					}
 				}
 			}
-		} else if(o.getClass().equals(AdminListener.class)) {
+		} 
+		else if(o.getClass().equals(AdminListener.class)) 
+		{
 			//at this point arg is a serialzed object
-			System.out.println("Admin Listener sent an object: "+arg.getClass().toString());
+			//System.out.println("Admin Listener sent an object: "+arg.getClass().toString());
 
 			PollingMessage message = (PollingMessage) arg;
-				
-			System.out.println(message.toString());
-			
+
+			//System.out.println(message.toString());
+
 			String[] stringArray = message.toString().split("\\$");
 			String pollID = stringArray[0];
 			String secondWord = stringArray[1];
@@ -202,22 +207,39 @@ public class Server extends Observable implements Observer {
 				Poll justCreatedPoll = new Poll(stringArray[1], questions);
 				justCreatedPoll.setPollID("" + (polls.size() + 1 ) );
 				polls.add(justCreatedPoll);
-				System.out.println("poll with poll id "+ polls.get(polls.size()-1 ).getPollID() + " created.");
-				System.out.println("About to notify VoteObserver");
+				//System.out.println("poll with poll id "+ polls.get(polls.size()-1 ).getPollID() + " created.");
+				//System.out.println("About to notify VoteObserver");
 				this.setChanged();
 				this.notifyObservers(this);
 			}
-			else for(Poll poll : polls){
-				if(poll.getPollID().equals(pollID)){
-					if(secondWord.equals("Pause"))
+			else if(secondWord.toLowerCase().equals("pause"))
+				for(Poll poll : polls){
+
+					if(poll.getPollID().equals(pollID)){
+
+
+
 						poll.pause();
-					
+
+
+					}
 				}
-			}
+			else if(secondWord.toLowerCase().equals("end"))
+				for(Poll poll : polls){
+
+					if(poll.getPollID().equals(pollID)){
+
+
+
+						poll.pause();
+
+
+					}
+				}
 		}
 	}
-	
-	
+
+
 	public void printPolls() {
 		for(Poll poll : polls){
 			poll.print();

@@ -18,8 +18,6 @@ public class AdminClient {
 	private Socket pollSocket;
 	private ObjectOutputStream out;
 	
-	private AdminFrame adminGUI;
-	
 	public AdminClient(String server,int port)
 	{
 		
@@ -45,31 +43,32 @@ public class AdminClient {
 			   out.close();
 			   pollSocket.close();   
 		} catch (IOException e) { 
-			   System.err.println("Couldn't get I/O for the connection");
+			   System.err.println("Couldn't get I/O for the connection close");
 	           System.exit(1);
 		}
 	}
 	
 	//sends a pause message to pause a poll
-	public void sendPause(int pollNumber)
+	public void sendPause(int pollID)
 	{
-		PollingMessage message=new PollingMessage("Pause$"+pollNumber);
+		PollingMessage message=new PollingMessage(pollID+"$Pause");
+		//System.out.println("send pause");
 		try {
-	    	  out.writeObject(message);
+			out.writeObject(message);
 	      } catch (IOException e) { 
-	    	  System.err.println("Couldn't get I/O for the connection");
+	    	  System.err.println("Couldn't get I/O for the connection pause");
 	    	  System.exit(1);
 	      }
 	}
 	
 	//sends a end message to pause a poll
-	public void sendEnd(int pollNumber)
+	public void sendEnd(int pollID)
 	{
-		PollingMessage message=new PollingMessage("End$"+pollNumber);
+		PollingMessage message=new PollingMessage(pollID+"$End");
 		try {
 	    	  out.writeObject(message);
 	      } catch (IOException e) { 
-	    	  System.err.println("Couldn't get I/O for the connection");
+	    	  System.err.println("Couldn't get I/O for the connection end");
 	    	  System.exit(1);
 	      }
 	}
@@ -93,7 +92,7 @@ public class AdminClient {
 		try {
 	    	  out.writeObject(message);
 	      } catch (IOException e) { 
-	    	  System.err.println("Couldn't get I/O for the connection");
+	    	  System.err.println("Couldn't get I/O for the connection sendpoll");
 	    	  System.exit(1);
 	      }
 	}

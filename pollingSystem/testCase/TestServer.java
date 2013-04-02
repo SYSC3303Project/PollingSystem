@@ -75,6 +75,7 @@ public class TestServer {
 	 */
 	public void createNSameVoters(int voterNumber,long pollID,long voteID,int port, String server)
 	{
+		List<Thread> voters=new ArrayList<Thread>();
 		for(int i=0;i<voterNumber;i++)
 		{
 			voters.add(new Thread(new Voter(pollID,voteID,port,server)));
@@ -95,6 +96,7 @@ public class TestServer {
 	 */
 	public void createNRandomVoters(int numberOfVoters,long pollID,int options,int port, String server)
 	{
+		List<Thread> voters=new ArrayList<Thread>();
 		for(int i=0;i<numberOfVoters;i++)
 		{
 			voters.add(new Thread(new Voter(pollID,port,server,options)));
@@ -104,11 +106,10 @@ public class TestServer {
 			currentThread.start();
 		}
 	}
-	
 	/**
 	 * Sets up the server, makes a poll with 4 options then makes 100 voters vote randomly on it.
 	 */
-	public void basicTest() {
+	public void setUpTest() {
 		setUpServer();
 		setUpAdmin("localhost",5050);
 		
@@ -117,15 +118,34 @@ public class TestServer {
 		options.add("second");
 		options.add("third");
 		options.add("fourth");
-		createPoll("Test Question",options);
+		createPoll("Question1 ",options);
+	}
+	
+	
+	public void pauseTest()
+	{
 		
-		createNRandomVoters(100,1,4,1500,"localhost");
+		int n=100;
+		setUpTest();
+		createNRandomVoters(n,1,4,1500,"localhost");
+		setUpAdmin("localhost",5050);
+		admin.sendPause(1);
+	}
+	
+	public void endTest()
+	{
+		int n=100;
+		setUpTest();
+		createNRandomVoters(n,1,4,1500,"localhost");
+		setUpAdmin("localhost",5050);
+		admin.sendEnd(1);
 		
 	}
 	
+	
 	public static void main(String[] args) {
 		TestServer test=new TestServer();
-		test.basicTest();
+		test.endTest();
 	}
 	
 }

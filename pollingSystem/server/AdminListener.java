@@ -34,9 +34,9 @@ public class AdminListener extends Observable implements Runnable {
 		       in = new ObjectInputStream(clientSocket.getInputStream());
 
 		       //while (!clientSocket.isOutputShutdown())  // isClosed(), isConnected(),isInputShutdown do not work
-		       System.out.println("Waiting for Connection");
+		       //System.out.println("Waiting for Connection");
 			   msg = in.readObject(); 
-			   System.out.println("unblocked, message is: "+msg);
+			   //System.out.println("unblocked, message is: "+msg);
 			   in.close();  
 			   clientSocket.close();
 	      
@@ -50,7 +50,7 @@ public class AdminListener extends Observable implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.println("Admin Listener Started");
+		//System.out.println("Admin Listener Started");
 		serverRunning = true;
 		while(serverRunning)
 		{
@@ -60,7 +60,6 @@ public class AdminListener extends Observable implements Runnable {
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

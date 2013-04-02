@@ -154,7 +154,7 @@ public class VoterClient extends JFrame implements ActionListener, Runnable{
 			DatagramSocket sendSocket = new DatagramSocket();
 			
 			sendSocket.send(sendPacket);
-			System.out.println("Data: "+sendPacket.getData()+"\nSocketAddress: "+sendPacket.getSocketAddress());
+			//System.out.println("Data: "+sendPacket.getData()+"\nSocketAddress: "+sendPacket.getSocketAddress());
 			
 			sendSocket.close();
 			
