@@ -1,9 +1,11 @@
-package src.pollingSystem.client;
+package pollingSystem.client;
 
 import java.awt.GridLayout;
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import pollingSystem.client.AdminClient;
 
 public class AdminPanel extends JPanel implements ActionListener{
 	

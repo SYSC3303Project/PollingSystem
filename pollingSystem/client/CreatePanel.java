@@ -1,11 +1,8 @@
-package src.pollingSystem.client;
+package pollingSystem.client;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import src.pollingSystem.server.Poll;
+import pollingSystem.client.AdminClient;
+
+import pollingSystem.server.Poll;
 
 public class CreatePanel extends JPanel implements ActionListener{
 	
@@ -66,8 +65,6 @@ public class CreatePanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		String question;
 		Poll poll;
-		AdminClient admin;
-		
 		Object source = event.getSource();
 	    if (source == enter)
 	    {

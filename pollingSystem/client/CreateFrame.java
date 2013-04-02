@@ -1,6 +1,8 @@
-package src.pollingSystem.client;
+package pollingSystem.client;
 
 import javax.swing.JFrame;
+
+import pollingSystem.client.AdminClient;
 
 public class CreateFrame extends JFrame{
 	
