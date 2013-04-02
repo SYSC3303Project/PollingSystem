@@ -31,10 +31,11 @@ public class Poll {
 		int number=1;
 		System.out.println(question);
 		System.out.println("Options");
+		
 		for(String option:options)
 		{
 			System.out.println(number+": "+option);
-			System.out.println("Count: " + resultCount.get(0));
+			System.out.println("Count: " + resultCount.get(number-1));
 			number+=1;
 		}
 	}
@@ -42,8 +43,9 @@ public class Poll {
 	 * adds 1 to the result count of the option number passed as a parameter
 	 * @param option - number option being voted for
 	 */
-	public void vote(long option){
-		resultCount.set((int) option, resultCount.get((int) option) + 1);
+	public synchronized void vote(long option){
+		
+		resultCount.set(((int) option)-1, resultCount.get(((int) option)-1) + 1);
 	}
 	/**
 	 * decrements 1 to the result count of the option number passed as a parameter

@@ -119,7 +119,7 @@ public class TestServer {
 		options.add("fourth");
 		createPoll("Test Question",options);
 		
-		createNRandomVoters(100,1,4,5050,"localhost");
+		createNRandomVoters(100,1,4,1500,"localhost");
 		
 	}
 	

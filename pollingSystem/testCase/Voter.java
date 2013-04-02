@@ -44,7 +44,7 @@ public class Voter implements Runnable{
 		this.server=server;
 		
 		Random random=new Random();
-		int vote=(Math.abs(random.nextInt()))%(options+1);//random int from 1 to OPTIONS
+		int vote=((Math.abs(random.nextInt()))%options)+1;//random int from 1 to OPTIONS
 		voteID=new Long(vote).longValue();
 	}
 	

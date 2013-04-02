@@ -176,7 +176,8 @@ public class Server extends Observable implements Observer {
 			long pollID = Long.parseLong(stringArray[0]);
 			long voteID = Long.parseLong(stringArray[1]);
 			for(Poll poll : polls) {
-				if(poll.getPollID().equals(pollID)) {
+				if(Long.parseLong(poll.getPollID())==pollID) {
+					System.out.println("set changed");
 					poll.vote(voteID);
 					this.setChanged();
 					this.notifyObservers(this);
