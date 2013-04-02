@@ -21,6 +21,10 @@ public class TestServer {
 	List<Thread> voters;
 	AdminClient admin;
 	
+	public TestServer()
+	{
+		voters=new ArrayList<Thread>();
+	}
 	/**
 	 * Creates a server and all of it's listener threads. Starts the appropriate threads.
 	 */
@@ -101,7 +105,9 @@ public class TestServer {
 		}
 	}
 	
-	
+	/**
+	 * Sets up the server, makes a poll with 4 options then makes 100 voters vote randomly on it.
+	 */
 	public void basicTest() {
 		setUpServer();
 		setUpAdmin("localhost",5050);
@@ -116,5 +122,10 @@ public class TestServer {
 		createNRandomVoters(100,1,4,5050,"localhost");
 		
 	}
-
+	
+	public static void main(String[] args) {
+		TestServer test=new TestServer();
+		test.basicTest();
+	}
+	
 }

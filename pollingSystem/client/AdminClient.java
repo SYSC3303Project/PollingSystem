@@ -22,8 +22,6 @@ public class AdminClient {
 	
 	public AdminClient(String server,int port)
 	{
-		adminGUI=new AdminFrame(this);
-		adminGUI.setVisible(true);
 		
 		try {
 			pollSocket=new Socket(server,port);
