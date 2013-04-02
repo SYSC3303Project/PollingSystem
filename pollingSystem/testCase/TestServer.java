@@ -1,10 +1,11 @@
 package pollingSystem.testCase;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
+import pollingSystem.client.AdminClient;
 import pollingSystem.server.AdminListener;
+import pollingSystem.server.Poll;
 import pollingSystem.server.Server;
 import pollingSystem.server.VoteListener;
 import pollingSystem.server.VoteObserver;
@@ -18,6 +19,7 @@ import pollingSystem.server.VoteObserver;
 public class TestServer {
 	Server server;
 	List<Thread> voters;
+	AdminClient admin;
 	
 	/**
 	 * Creates a server and all of it's listener threads. Starts the appropriate threads.
@@ -43,6 +45,22 @@ public class TestServer {
 		Thread adminListenThread = new Thread(adminListener);
 		adminListenThread.start();
 	}
+	
+	public void setUpAdmin(String server,int port)
+	{
+		admin=new AdminClient(server,port);
+	}
+	
+	/**
+	 * Sends a create poll message to the admins server.
+	 * @param question
+	 * @param options
+	 */
+	public void createPoll(String question,List<String> options){
+		Poll poll=new Poll(question, options);
+		admin.sendPoll(poll);
+	}
+	
 	/**
 	 * Creates n copies of identical voters using the passed pollID,voteID port and server.
 	 * @param voterNumber
@@ -63,8 +81,39 @@ public class TestServer {
 		}
 	}
 	
-	@Test
-	public void testCreatePoll() {
+	/**
+	 * Creates n copies of random voters using the passed pollID, port and server.
+	 * @param voterNumber
+	 * @param pollID
+	 * @param voteID
+	 * @param port
+	 * @param server
+	 */
+	public void createNRandomVoters(int numberOfVoters,long pollID,int options,int port, String server)
+	{
+		for(int i=0;i<numberOfVoters;i++)
+		{
+			voters.add(new Thread(new Voter(pollID,port,server,options)));
+		}
+		for(Thread currentThread:voters)
+		{
+			currentThread.start();
+		}
+	}
+	
+	
+	public void basicTest() {
+		setUpServer();
+		setUpAdmin("localhost",5050);
+		
+		List<String> options=new ArrayList<String>();
+		options.add("first");
+		options.add("second");
+		options.add("third");
+		options.add("fourth");
+		createPoll("Test Question",options);
+		
+		createNRandomVoters(100,1,4,5050,"localhost");
 		
 	}
 

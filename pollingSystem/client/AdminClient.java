@@ -20,13 +20,13 @@ public class AdminClient {
 	
 	private AdminFrame adminGUI;
 	
-	public AdminClient()
+	public AdminClient(String server,int port)
 	{
 		adminGUI=new AdminFrame(this);
 		adminGUI.setVisible(true);
 		
 		try {
-			pollSocket=new Socket(SERVER,PORT);
+			pollSocket=new Socket(server,port);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -103,7 +103,8 @@ public class AdminClient {
 	
 	
 	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		AdminClient client = new AdminClient();
+		AdminClient client = new AdminClient(SERVER,PORT);
+		AdminFrame adminGUI=new AdminFrame(client);
+		adminGUI.setVisible(true);
    	}
 }
