@@ -121,6 +121,13 @@ public class TestServer {
 		createPoll("Question1 ",options);
 	}
 	
+	public void loadTest()
+	{
+		int n=100;
+		setUpTest();
+		createNRandomVoters(n,1,4,1500,"localhost");
+		setUpAdmin("localhost",5050);
+	}
 	
 	public void pauseTest()
 	{
@@ -145,7 +152,7 @@ public class TestServer {
 	
 	public static void main(String[] args) {
 		TestServer test=new TestServer();
-		test.endTest();
+		test.loadTest();
 	}
 	
 }
